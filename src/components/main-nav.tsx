@@ -14,6 +14,7 @@ import {
   Trophy,
   User,
   Gift,
+  LifeBuoy,
 } from "lucide-react";
 
 const navItems = [
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
   { href: "/profile", icon: User, label: "Profile" },
   { href: "/rewards", icon: Gift, label: "Rewards" },
+  { href: "/help", icon: LifeBuoy, label: "Help & Support" },
 ];
 
 export function MainNav() {
