@@ -1,7 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
 import { generatePuzzle, PuzzleState } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -34,7 +34,7 @@ function SubmitButton() {
 }
 
 export function PuzzleGenerator() {
-  const [state, formAction] = useFormState(generatePuzzle, initialState);
+  const [state, formAction] = useActionState(generatePuzzle, initialState);
   const { toast } = useToast();
   const [difficulty, setDifficulty] = useState(5);
   const { pending } = useFormStatus();
