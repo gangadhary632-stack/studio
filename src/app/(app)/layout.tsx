@@ -8,7 +8,7 @@ import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarHeader, 
 import { MainNav } from "@/components/main-nav";
 import { UserNav } from "@/components/user-nav";
 import { Separator } from "@/components/ui/separator";
-import { EdutechLogo } from "@/components/edutech-logo";
+import { EduQuestLogo } from "@/components/edutech-logo";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useUser();
@@ -29,7 +29,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader className="p-4">
           <div className="flex items-center gap-2">
-            <EdutechLogo className="h-8 w-auto text-primary" />
+            <EduQuestLogo className="h-8 w-auto text-primary" />
             <h2 className="text-2xl font-bold font-headline text-primary">EduQuest</h2>
           </div>
         </SidebarHeader>
