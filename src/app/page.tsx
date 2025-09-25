@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BrainCircuit, LogIn } from "lucide-react";
+import { LogIn } from "lucide-react";
+import { EdutechLogo } from "@/components/edutech-logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -36,8 +37,8 @@ export default function LoginPage() {
     <main className="flex min-h-screen w-full items-center justify-center bg-background p-4">
       <div className="flex flex-col items-center space-y-4 text-center">
         <div className="flex items-center gap-2 text-primary">
-          <BrainCircuit className="h-12 w-12" />
-          <h1 className="text-5xl font-bold font-headline">BrainBlitz</h1>
+          <EdutechLogo className="h-12 w-auto" />
+          <h1 className="text-5xl font-bold font-headline">EDUTECH</h1>
         </div>
         <p className="text-muted-foreground md:text-xl">
           Challenge your mind. Climb the leaderboard.

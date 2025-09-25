@@ -5,7 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "BrainBlitz",
+  title: "EDUTECH",
   description: "Challenge your mind with quizzes, puzzles, and climb the leaderboard.",
 };
 

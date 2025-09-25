@@ -7,8 +7,8 @@ import { FullScreenLoader } from "@/components/loader";
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter } from "@/components/ui/sidebar";
 import { MainNav } from "@/components/main-nav";
 import { UserNav } from "@/components/user-nav";
-import { BrainCircuit } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { EdutechLogo } from "@/components/edutech-logo";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useUser();
@@ -29,8 +29,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader className="p-4">
           <div className="flex items-center gap-2">
-            <BrainCircuit className="h-8 w-8 text-primary" />
-            <h2 className="text-2xl font-bold font-headline text-primary">BrainBlitz</h2>
+            <EdutechLogo className="h-8 w-auto text-primary" />
+            <h2 className="text-2xl font-bold font-headline text-primary">EDUTECH</h2>
           </div>
         </SidebarHeader>
         <SidebarContent>
