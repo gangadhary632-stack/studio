@@ -30,7 +30,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarHeader className="p-4">
           <div className="flex items-center gap-2">
             <EdutechLogo className="h-8 w-auto text-primary" />
-            <h2 className="text-2xl font-bold font-headline text-primary">EDUTECH</h2>
+            <h2 className="text-2xl font-bold font-headline text-primary">EduQuest</h2>
           </div>
         </SidebarHeader>
         <SidebarContent>

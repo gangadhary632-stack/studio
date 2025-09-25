@@ -4,24 +4,24 @@ export function EdutechLogo({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 160 50"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={cn("w-auto h-8", className)}
-      aria-label="Edutech Logo"
+      aria-label="EduQuest Logo"
     >
-      <g transform="translate(0, -10)">
-        <path
-          d="M33.6,18.3l-14.8-6.8c-1.3-0.6-2.8,0-3.4,1.3L2,30.3c-0.6,1.3,0,2.8,1.3,3.4l14.8,6.8c1.3,0.6,2.8,0,3.4-1.3l13.3-20.7C35.4,27.2,34.9,25.7,33.6,25.3L33.6,18.3z"
-          fill="#000000"
-        />
-        <path
-          d="M48.7,42c-8.9-3-15.3-1.6-22.3,4.4c0,0,0,0,0,0c-0.5,0.4-1,0.8-1.5,1.2c-2.4,1.8-5,3.1-7.7,4c-1.2,0.4-2,1.5-2,2.8c0.1,1.5,1.4,2.7,2.9,2.6c11.5-0.5,22.1-5.1,30.6-13.3C50.2,43.3,49.5,42.4,48.7,42z"
-          fill="#3498db"
-        />
-        <path
-          d="M57.6,30.2c-8.9-3-15.3-1.6-22.3,4.4c0,0,0,0,0,0c-0.5,0.4-1,0.8-1.5,1.2c-2.4,1.8-5,3.1-7.7,4c-1.2,0.4-2,1.5-2,2.8c0.1,1.5,1.4,2.7,2.9,2.6c11.5-0.5,22.1-5.1,30.6-13.3C59.1,31.5,58.4,30.6,57.6,30.2z"
-          fill="#3498db"
-        />
-      </g>
+      <path d="M22 10.5V12a10 10 0 1 1-10-10 10.15 10.15 0 0 1 3.13.5" />
+      <path d="M4 19.5V15a2 2 0 0 1 2-2h3.13" />
+      <path d="M4 12V7a2 2 0 0 1 2-2h6.13" />
+      <path d="M18 12.5v-3.75a2 2 0 0 0-2-2H8.25" />
+      <path d="M12 2v2" />
+      <path d="m13 14-4 7h8l-4-7Z" />
+      <path d="M18 22h-1.5" />
+      <path d="M22 14h-2" />
+      <path d="m20.5 18.5-1-1" />
     </svg>
   );
 }

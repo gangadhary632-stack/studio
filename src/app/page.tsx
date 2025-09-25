@@ -38,7 +38,7 @@ export default function LoginPage() {
       <div className="flex flex-col items-center space-y-4 text-center">
         <div className="flex items-center gap-2 text-primary">
           <EdutechLogo className="h-12 w-auto" />
-          <h1 className="text-5xl font-bold font-headline">EDUTECH</h1>
+          <h1 className="text-5xl font-bold font-headline">EduQuest</h1>
         </div>
         <p className="text-muted-foreground md:text-xl">
           Challenge your mind. Climb the leaderboard.
