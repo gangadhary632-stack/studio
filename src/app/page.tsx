@@ -17,21 +17,29 @@ import { Label } from "@/components/ui/label";
 import { LogIn } from "lucide-react";
 import { EduQuestLogo } from "@/components/edutech-logo";
 
-export default function LoginPage() {
+export default function AuthPage() {
+  const [isLoginPage, setIsLoginPage] = useState(true);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useUser();
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleAuthAction = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim() && password.trim()) {
-      // For demonstration, we'll extract a name from the email.
-      const name = email.split("@")[0];
-      login(name, email);
+      const userName = isLoginPage ? email.split("@")[0] : name;
+      login(userName, email);
       router.push("/dashboard");
     }
   };
+  
+  const toggleAuthMode = () => {
+    setIsLoginPage(!isLoginPage);
+    setName("");
+    setEmail("");
+    setPassword("");
+  }
 
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-background p-4">
@@ -45,13 +53,26 @@ export default function LoginPage() {
         </p>
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardTitle className="text-2xl">{isLoginPage ? "Login" : "Create Account"}</CardTitle>
             <CardDescription>
-              Enter your email and password to start.
+              {isLoginPage ? "Enter your email and password to start." : "Fill in the details to create your account."}
             </CardDescription>
           </CardHeader>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleAuthAction}>
             <CardContent className="grid gap-4">
+              {!isLoginPage && (
+                 <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John Doe"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              )}
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -70,14 +91,17 @@ export default function LoginPage() {
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.g. value)}
                 />
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-4">
               <Button type="submit" className="w-full" variant="default">
                 <LogIn className="mr-2 h-4 w-4" />
-                Continue
+                {isLoginPage ? "Continue" : "Create Account"}
+              </Button>
+               <Button type="button" variant="link" size="sm" onClick={toggleAuthMode}>
+                {isLoginPage ? "Don't have an account? Create one" : "Already have an account? Log in"}
               </Button>
             </CardFooter>
           </form>
