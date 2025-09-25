@@ -50,8 +50,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {featureCards.map((feature) => (
-          <Link href={feature.href} key={feature.title} legacyBehavior>
-            <a className="block rounded-lg transition-transform duration-200 hover:scale-[1.02]">
+          <Link href={feature.href} key={feature.title} className="block rounded-lg transition-transform duration-200 hover:scale-[1.02]">
               <Card className="h-full hover:border-primary">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-lg font-medium">
@@ -69,7 +68,6 @@ export default function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
-            </a>
           </Link>
         ))}
       </div>
