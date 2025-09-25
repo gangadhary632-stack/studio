@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { generatePuzzle, PuzzleState } from "./actions";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 import { Wand2, LoaderCircle } from "lucide-react";
 
 const initialState: PuzzleState = {};
@@ -37,7 +38,9 @@ export function PuzzleGenerator() {
   const [state, formAction] = useActionState(generatePuzzle, initialState);
   const { toast } = useToast();
   const [difficulty, setDifficulty] = useState(5);
+  const [userAnswer, setUserAnswer] = useState("");
   const { pending } = useFormStatus();
+  const accordionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (state.error) {
@@ -48,6 +51,36 @@ export function PuzzleGenerator() {
       });
     }
   }, [state, toast]);
+  
+  useEffect(() => {
+    setUserAnswer("");
+  }, [state.puzzle]);
+
+
+  const handleCheckAnswer = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!userAnswer.trim()) {
+      toast({
+        variant: "destructive",
+        title: "No Answer",
+        description: "Please enter an answer.",
+      });
+      return;
+    }
+    const isCorrect = state.puzzle?.solution.trim().toLowerCase() === userAnswer.trim().toLowerCase();
+    if (isCorrect) {
+      toast({
+        title: "Correct!",
+        description: "You solved the puzzle!",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Incorrect",
+        description: "That's not the right answer. Try again!",
+      });
+    }
+  };
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -90,15 +123,24 @@ export function PuzzleGenerator() {
             </CardContent>
           </Card>
         ) : state.puzzle ? (
-           <Card className="animate-in fade-in-50">
+           <Card className="animate-in fade-in-50 flex flex-col">
             <CardHeader>
                 <CardTitle className="capitalize">{state.puzzle.puzzleType} Puzzle</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-grow space-y-4">
                 <p className="text-muted-foreground">{state.puzzle.puzzleDescription}</p>
+                <form onSubmit={handleCheckAnswer} className="flex items-center gap-2">
+                    <Input 
+                      placeholder="Enter your answer" 
+                      value={userAnswer}
+                      onChange={(e) => setUserAnswer(e.target.value)}
+                      aria-label="Puzzle Answer"
+                    />
+                    <Button type="submit" variant="secondary">Check</Button>
+                </form>
             </CardContent>
             <CardFooter>
-                 <Accordion type="single" collapsible className="w-full">
+                 <Accordion type="single" collapsible className="w-full" ref={accordionRef}>
                     <AccordionItem value="item-1">
                         <AccordionTrigger>Show Solution</AccordionTrigger>
                         <AccordionContent>
