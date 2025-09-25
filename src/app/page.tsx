@@ -17,15 +17,17 @@ import { Label } from "@/components/ui/label";
 import { BrainCircuit, LogIn } from "lucide-react";
 
 export default function LoginPage() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login } = useUser();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && phone.trim()) {
-      login(name);
+    if (email.trim() && password.trim()) {
+      // For demonstration, we'll extract a name from the email.
+      const name = email.split("@")[0];
+      login(name, email);
       router.push("/dashboard");
     }
   };
@@ -44,31 +46,30 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
             <CardDescription>
-              Enter your name and phone number to start.
+              Enter your email and password to start.
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleLogin}>
             <CardContent className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="password">Password</Label>
                 <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="555-555-5555"
+                  id="password"
+                  type="password"
                   required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </CardContent>

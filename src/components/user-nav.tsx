@@ -40,6 +40,7 @@ export function UserNav() {
             </Avatar>
             <div className="hidden flex-col group-data-[collapsible=icon]:hidden">
               <span className="text-sm font-medium">{user.name}</span>
+              <span className="text-xs text-muted-foreground">{user.email}</span>
             </div>
           </div>
           <ChevronsLeftRight className="absolute right-2 hidden h-4 w-4 text-muted-foreground group-data-[collapsible=icon]:hidden" />
@@ -49,6 +50,9 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user.email}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

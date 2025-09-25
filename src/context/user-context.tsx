@@ -4,12 +4,13 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 interface User {
   name: string;
+  email: string;
 }
 
 interface UserContextType {
   user: User | null;
   isLoading: boolean;
-  login: (name: string) => void;
+  login: (name: string, email: string) => void;
   logout: () => void;
 }
 
@@ -33,8 +34,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = (name: string) => {
-    const newUser = { name };
+  const login = (name: string, email: string) => {
+    const newUser = { name, email };
     localStorage.setItem('brainblitz_user', JSON.stringify(newUser));
     setUser(newUser);
   };
