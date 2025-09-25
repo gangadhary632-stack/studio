@@ -91,7 +91,7 @@ export default function AuthPage() {
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.g. value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </CardContent>
