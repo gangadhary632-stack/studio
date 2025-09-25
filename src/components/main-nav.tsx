@@ -13,6 +13,7 @@ import {
   Puzzle,
   Trophy,
   User,
+  Gift,
 } from "lucide-react";
 
 const navItems = [
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/puzzles", icon: Puzzle, label: "Puzzles" },
   { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
   { href: "/profile", icon: User, label: "Profile" },
+  { href: "/rewards", icon: Gift, label: "Rewards" },
 ];
 
 export function MainNav() {
