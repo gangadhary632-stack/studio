@@ -12,6 +12,7 @@ import {
   Lightbulb,
   Puzzle,
   Trophy,
+  User,
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/quiz", icon: Lightbulb, label: "Quizzes" },
   { href: "/puzzles", icon: Puzzle, label: "Puzzles" },
   { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
+  { href: "/profile", icon: User, label: "Profile" },
 ];
 
 export function MainNav() {
