@@ -1,6 +1,7 @@
 "use client";
 
-import { useUser } from "@/context/user-context";
+import { useAuth } from "@/firebase";
+import { useUser } from "@/firebase";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -13,17 +14,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { LogOut, ChevronsLeftRight } from "lucide-react";
+import { signOut } from "firebase/auth";
+
 
 export function UserNav() {
-  const { user, logout } = useUser();
+  const { user } = useUser();
+  const auth = useAuth();
   const router = useRouter();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await signOut(auth);
     router.push("/");
   };
 
   if (!user) return null;
+
+  const userName = user.displayName || user.email?.split('@')[0] || 'User';
+  const userEmail = user.email || 'No email provided';
+  const avatarFallback = (userName.charAt(0) || 'U').toUpperCase();
 
   return (
     <DropdownMenu>
@@ -35,12 +43,12 @@ export function UserNav() {
           <div className="flex w-full items-center gap-2">
             <Avatar className="h-9 w-9">
               <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                {user.name.charAt(0).toUpperCase()}
+                {avatarFallback}
               </AvatarFallback>
             </Avatar>
             <div className="hidden flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-sm font-medium">{user.name}</span>
-              <span className="text-xs text-muted-foreground">{user.email}</span>
+              <span className="text-sm font-medium">{userName}</span>
+              <span className="text-xs text-muted-foreground">{userEmail}</span>
             </div>
           </div>
           <ChevronsLeftRight className="absolute right-2 hidden h-4 w-4 text-muted-foreground group-data-[collapsible=icon]:hidden" />
@@ -49,9 +57,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
+            <p className="text-sm font-medium leading-none">{userName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
+              {userEmail}
             </p>
           </div>
         </DropdownMenuLabel>

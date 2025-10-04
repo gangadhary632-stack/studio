@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/context/user-context";
+import { useUser } from "@/firebase";
 import { FullScreenLoader } from "@/components/loader";
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter } from "@/components/ui/sidebar";
 import { MainNav } from "@/components/main-nav";
@@ -11,16 +11,16 @@ import { Separator } from "@/components/ui/separator";
 import { EduQuestLogo } from "@/components/edutech-logo";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = useUser();
+  const { user, isUserLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isUserLoading && !user) {
       router.push("/");
     }
-  }, [user, isLoading, router]);
+  }, [user, isUserLoading, router]);
 
-  if (isLoading || !user) {
+  if (isUserLoading || !user) {
     return <FullScreenLoader />;
   }
 

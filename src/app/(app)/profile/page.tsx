@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/context/user-context";
+import { useUser } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mail, User as UserIcon } from "lucide-react";
@@ -11,6 +11,10 @@ export default function ProfilePage() {
   if (!user) {
     return null;
   }
+  
+  const userName = user.displayName || user.email?.split('@')[0] || 'User';
+  const userEmail = user.email || 'No email provided';
+  const avatarFallback = (userName.charAt(0) || 'U').toUpperCase();
 
   return (
     <div className="flex flex-col gap-8">
@@ -25,12 +29,12 @@ export default function ProfilePage() {
         <CardHeader className="flex flex-row items-center gap-4">
            <Avatar className="h-20 w-20 border-2 border-primary">
               <AvatarFallback className="bg-secondary text-xl font-bold text-secondary-foreground">
-                {user.name.charAt(0).toUpperCase()}
+                {avatarFallback}
               </AvatarFallback>
             </Avatar>
             <div>
-                <CardTitle className="text-3xl">{user.name}</CardTitle>
-                <CardDescription className="text-lg">{user.email}</CardDescription>
+                <CardTitle className="text-3xl">{userName}</CardTitle>
+                <CardDescription className="text-lg">{userEmail}</CardDescription>
             </div>
         </CardHeader>
         <CardContent className="space-y-4 pt-4">
@@ -38,14 +42,14 @@ export default function ProfilePage() {
                 <UserIcon className="h-6 w-6 text-muted-foreground" />
                 <div>
                     <p className="text-sm text-muted-foreground">Username</p>
-                    <p className="font-semibold">{user.name}</p>
+                    <p className="font-semibold">{userName}</p>
                 </div>
             </div>
              <div className="flex items-center gap-4 rounded-md border p-4">
                 <Mail className="h-6 w-6 text-muted-foreground" />
                 <div>
                     <p className="text-sm text-muted-foreground">Email Address</p>
-                    <p className="font-semibold">{user.email}</p>
+                    <p className="font-semibold">{userEmail}</p>
                 </div>
             </div>
         </CardContent>

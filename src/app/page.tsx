@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/context/user-context";
+import { useAuth } from "@/firebase";
+import { 
+  initiateEmailSignUp,
+  initiateEmailSignIn,
+} from "@/firebase/non-blocking-login";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,23 +18,52 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LogIn } from "lucide-react";
+import { LogIn, LoaderCircle } from "lucide-react";
 import { EduQuestLogo } from "@/components/edutech-logo";
+import { useToast } from "@/hooks/use-toast";
+import { AuthError } from "firebase/auth";
 
 export default function AuthPage() {
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const auth = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
 
-  const handleAuthAction = (e: React.FormEvent) => {
+  const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim() && password.trim()) {
-      const userName = isLoginPage ? email.split("@")[0] : name;
-      login(userName, email);
-      router.push("/dashboard");
+      setIsLoading(true);
+      try {
+        if (isLoginPage) {
+          await initiateEmailSignIn(auth, email, password);
+        } else {
+          if (!name.trim()) {
+             toast({
+              variant: "destructive",
+              title: "Name is required",
+              description: "Please enter your name to create an account.",
+            });
+            setIsLoading(false);
+            return;
+          }
+          await initiateEmailSignUp(auth, email, password);
+          // Here you might want to update the user's profile with the name
+        }
+        // The onAuthStateChanged listener in UserProvider will handle the redirect
+      } catch (error) {
+         const authError = error as AuthError;
+         toast({
+            variant: "destructive",
+            title: "Authentication Failed",
+            description: authError.message || "An unexpected error occurred.",
+        });
+        setIsLoading(false);
+      }
     }
   };
   
@@ -39,6 +72,7 @@ export default function AuthPage() {
     setName("");
     setEmail("");
     setPassword("");
+    setIsLoading(false);
   }
 
   return (
@@ -70,6 +104,7 @@ export default function AuthPage() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    disabled={isLoading}
                   />
                 </div>
               )}
@@ -82,6 +117,7 @@ export default function AuthPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
               <div className="grid gap-2">
@@ -92,15 +128,16 @@ export default function AuthPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-4">
-              <Button type="submit" className="w-full" variant="default">
-                <LogIn className="mr-2 h-4 w-4" />
+              <Button type="submit" className="w-full" variant="default" disabled={isLoading}>
+                {isLoading ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoginPage ? "Continue" : "Create Account"}
               </Button>
-               <Button type="button" variant="link" size="sm" onClick={toggleAuthMode}>
+               <Button type="button" variant="link" size="sm" onClick={toggleAuthMode} disabled={isLoading}>
                 {isLoginPage ? "Don't have an account? Create one" : "Already have an account? Log in"}
               </Button>
             </CardFooter>

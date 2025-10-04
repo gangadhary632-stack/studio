@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useUser } from "@/context/user-context";
+import { useUser } from "@/firebase";
 import {
   Card,
   CardContent,
@@ -53,7 +53,7 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back, {user?.name || "Player"}!
+          Welcome back, {user?.displayName || user?.email || "Player"}!
         </h1>
         <p className="text-muted-foreground">
           Ready to challenge your mind today?

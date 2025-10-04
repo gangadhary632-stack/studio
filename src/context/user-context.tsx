@@ -1,58 +1,26 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
+import { User } from 'firebase/auth';
+import { useUser as useFirebaseUser, UserHookResult } from '@/firebase';
 
-interface User {
-  name: string;
-  email: string;
-}
-
-interface UserContextType {
-  user: User | null;
-  isLoading: boolean;
-  login: (name: string, email: string) => void;
-  logout: () => void;
-}
+// The context will now provide the User object from Firebase,
+// along with the loading state and any potential errors.
+type UserContextType = UserHookResult;
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem('brainblitz_user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
-      localStorage.removeItem('brainblitz_user');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const login = (name: string, email: string) => {
-    const newUser = { name, email };
-    localStorage.setItem('brainblitz_user', JSON.stringify(newUser));
-    setUser(newUser);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('brainblitz_user');
-    setUser(null);
-  };
+  const userHookResult = useFirebaseUser();
 
   return (
-    <UserContext.Provider value={{ user, isLoading, login, logout }}>
+    <UserContext.Provider value={userHookResult}>
       {children}
     </UserContext.Provider>
   );
 }
 
-export function useUser() {
+export function useUser(): UserContextType {
   const context = useContext(UserContext);
   if (context === undefined) {
     throw new Error('useUser must be used within a UserProvider');
