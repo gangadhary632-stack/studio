@@ -1,0 +1,266 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the BrainBlitz application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user entity."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number used for authentication.",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's name."
+        }
+      },
+      "required": [
+        "id",
+        "phoneNumber",
+        "name"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Represents a quiz within the BrainBlitz application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the quiz entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the quiz."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the quiz."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description"
+      ]
+    },
+    "Question": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Question",
+      "type": "object",
+      "description": "Represents a question within a quiz.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the question entity."
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to Quiz. (Relationship: Quiz 1:N Question)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text of the question."
+        },
+        "correctAnswerIndex": {
+          "type": "number",
+          "description": "The index of the correct answer in the answers array."
+        },
+        "answers": {
+          "type": "array",
+          "description": "An array of possible answers for the question.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "quizId",
+        "text",
+        "correctAnswerIndex",
+        "answers"
+      ]
+    },
+    "Puzzle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Puzzle",
+      "type": "object",
+      "description": "Represents a puzzle within the BrainBlitz application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the puzzle entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the puzzle."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the puzzle."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of puzzle (e.g., logic, spatial, memory)."
+        },
+        "difficulty": {
+          "type": "number",
+          "description": "The difficulty level of the puzzle."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "type",
+        "difficulty"
+      ]
+    },
+    "Score": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Score",
+      "type": "object",
+      "description": "Represents a user's score on a quiz or puzzle.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the score entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Score)"
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to Quiz. (Relationship: Quiz 1:N Score). Nullable if the score is for a puzzle."
+        },
+        "puzzleId": {
+          "type": "string",
+          "description": "Reference to Puzzle. (Relationship: Puzzle 1:N Score). Nullable if the score is for a quiz."
+        },
+        "value": {
+          "type": "number",
+          "description": "The score value."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The timestamp when the score was recorded.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "value",
+        "timestamp"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile information. Path-based ownership ensures only the authenticated user can access their data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, matching the Firebase Authentication UID."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Stores quiz information.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier of the quiz."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}/questions/{questionId}",
+        "definition": {
+          "entityName": "Question",
+          "schema": {
+            "$ref": "#/backend/entities/Question"
+          },
+          "description": "Stores questions related to a specific quiz.  Uses hierarchical paths for the Quiz 1:N Question relationship.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier of the quiz."
+            },
+            {
+              "name": "questionId",
+              "description": "The unique identifier of the question."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/puzzles/{puzzleId}",
+        "definition": {
+          "entityName": "Puzzle",
+          "schema": {
+            "$ref": "#/backend/entities/Puzzle"
+          },
+          "description": "Stores puzzle information.",
+          "params": [
+            {
+              "name": "puzzleId",
+              "description": "The unique identifier of the puzzle."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/scores/{scoreId}",
+        "definition": {
+          "entityName": "Score",
+          "schema": {
+            "$ref": "#/backend/entities/Score"
+          },
+          "description": "Stores user scores for quizzes and puzzles. Includes denormalized 'userId' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "scoreId",
+              "description": "The unique identifier of the score."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the BrainBlitz application, focusing on user authentication, quizzes, puzzles, and leaderboards. It follows the core design principles of Authorization Independence, Clarity of Intent, DBAC (Database-Based Access Control), and QAPs (Rules are Not Filters). Authorization Independence is achieved through path-based ownership and denormalization, avoiding the need for `get()` calls in security rules. Structural Segregation is applied by separating user-specific data (e.g., scores) into subcollections owned by the user. Access Modeling uses path-based ownership for user data and avoids membership maps since there is no collaborative data.\n\nSpecifically, user data is stored under `/users/{userId}`, ensuring that only the authenticated user can access their own data. Quizzes are stored in a top-level `/quizzes` collection, and questions are stored in a subcollection `/quizzes/{quizId}/questions`. Puzzles are stored in a top-level `/puzzles` collection. Scores are stored in `/users/{userId}/scores` and include `quizId` or `puzzleId` to associate the score with the corresponding quiz or puzzle. This structure allows for efficient querying of user scores and simplifies security rules. The denormalization includes storing the `userId` within the Score documents to allow listing operations restricted to the current authenticated user.\n\nThis structure facilitates simple and robust security rules based on `request.auth.uid`, ensuring that users can only access their own data and preventing unauthorized access to quizzes, puzzles, and scores. The segregation of data by user and the avoidance of complex hierarchical dependencies make the security rules easier to understand and maintain, supporting the QAPs (Rules are not Filters) principle by enabling secure list operations scoped to the authenticated user."
+  }
+}
