@@ -21,9 +21,7 @@
         }
       },
       "required": [
-        "id",
-        "phoneNumber",
-        "name"
+        "id"
       ]
     },
     "Quiz": {
@@ -166,7 +164,6 @@
   },
   "auth": {
     "providers": [
-      "password",
       "anonymous"
     ]
   },
