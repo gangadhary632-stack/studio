@@ -9,44 +9,51 @@ export function QuizLogo({ className }: { className?: string }) {
       aria-label="Quiz Logo"
     >
       <defs>
-        <radialGradient id="grad-bg" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{stopColor: '#5EE6D0', stopOpacity: 1}} />
-          <stop offset="100%" style={{stopColor: '#38A89D', stopOpacity: 1}} />
+        <radialGradient id="halftone" cx="0.25" cy="0.25" r="0.2">
+            <stop offset="10%" stopColor="rgba(0,0,0,0.3)" />
+            <stop offset="90%" stopColor="rgba(0,0,0,0)" />
         </radialGradient>
+         <pattern id="halftone-pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+            <circle cx="5" cy="5" r="1.5" fill="rgba(0,0,0,0.15)"/>
+        </pattern>
       </defs>
       
-      {/* Background */}
-      <rect width="100" height="100" fill="url(#grad-bg)" />
+      <g transform="translate(0, 5)">
+        {/* Yellow explosion */}
+        <path
+          d="M50 5 L58 25 L80 20 L70 38 L90 42 L75 52 L90 62 L70 65 L80 82 L58 78 L50 95 L42 78 L20 82 L30 65 L10 62 L25 52 L10 42 L30 38 L20 20 L42 25 Z"
+          fill="#FFD600"
+          stroke="#000"
+          strokeWidth="1.5"
+        />
 
-      {/* Comic book style explosion */}
-      <path
-        d="M50 10 L60 30 L80 35 L65 50 L70 70 L50 60 L30 70 L35 50 L20 35 L40 30 Z"
-        fill="#F94144"
-        stroke="#231F20"
-        strokeWidth="2"
-      />
-      
-       <path
-        d="M50 15 L58 32 L75 36 L62 48 L66 65 L50 57 L34 65 L38 48 L25 36 L42 32 Z"
-        fill="#F3722C"
-        stroke="none"
-      />
+        {/* Blue cloud */}
+        <path
+          d="M50,22 C35,22 30,32 35,45 C30,50 25,50 28,60 C25,70 35,78 50,78 C65,78 75,70 72,60 C75,50 70,50 65,45 C70,32 65,22 50,22Z"
+          fill="#03A9F4"
+          stroke="#000"
+          strokeWidth="1.5"
+        />
+        
+        {/* Halftone effect */}
+        <rect x="10" y="10" width="80" height="80" fill="url(#halftone-pattern)" mask="url(#cloud-mask)"/>
 
-      {/* Text "QUIZ" */}
-      <text
-        x="50"
-        y="55"
-        fontFamily="Impact, sans-serif"
-        fontSize="24"
-        fill="#FCEE21"
-        stroke="#231F20"
-        strokeWidth="1.5"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        transform="rotate(-5 50 50)"
-      >
-        QUIZ
-      </text>
+        {/* Text "QUIZ!" */}
+        <text
+          x="50"
+          y="54"
+          fontFamily="Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+          fontSize="30"
+          fill="#FFD600"
+          stroke="#000000"
+          strokeWidth="2"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          letterSpacing="-1"
+        >
+          QUIZ!
+        </text>
+      </g>
     </svg>
   );
 }
