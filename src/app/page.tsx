@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/firebase";
 import { 
-  initiateEmailSignUp,
-  initiateEmailSignIn,
-} from "@/firebase/non-blocking-login";
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  AuthError
+} from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,7 +23,6 @@ import { Label } from "@/components/ui/label";
 import { LogIn, LoaderCircle } from "lucide-react";
 import { EduQuestLogo } from "@/components/edutech-logo";
 import { useToast } from "@/hooks/use-toast";
-import { AuthError } from "firebase/auth";
 
 export default function AuthPage() {
   const [isLoginPage, setIsLoginPage] = useState(true);
@@ -36,34 +37,64 @@ export default function AuthPage() {
 
   const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim() && password.trim()) {
-      setIsLoading(true);
-      try {
-        if (isLoginPage) {
-          await initiateEmailSignIn(auth, email, password);
-        } else {
-          if (!name.trim()) {
-             toast({
-              variant: "destructive",
-              title: "Name is required",
-              description: "Please enter your name to create an account.",
-            });
-            setIsLoading(false);
-            return;
-          }
-          await initiateEmailSignUp(auth, email, password);
-          // Here you might want to update the user's profile with the name
+    if (!email.trim() || !password.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Missing fields",
+        description: "Please enter both email and password.",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      if (isLoginPage) {
+        await signInWithEmailAndPassword(auth, email, password);
+        // The onAuthStateChanged listener in UserProvider will handle the redirect
+        router.push("/dashboard");
+      } else {
+        if (!name.trim()) {
+           toast({
+            variant: "destructive",
+            title: "Name is required",
+            description: "Please enter your name to create an account.",
+          });
+          setIsLoading(false);
+          return;
+        }
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        if (userCredential.user) {
+          await updateProfile(userCredential.user, {
+            displayName: name,
+          });
         }
         // The onAuthStateChanged listener in UserProvider will handle the redirect
-      } catch (error) {
-         const authError = error as AuthError;
-         toast({
-            variant: "destructive",
-            title: "Authentication Failed",
-            description: authError.message || "An unexpected error occurred.",
-        });
-        setIsLoading(false);
+        router.push("/dashboard");
       }
+    } catch (error) {
+       const authError = error as AuthError;
+       let errorMessage = "An unexpected error occurred.";
+       switch (authError.code) {
+         case "auth/invalid-credential":
+           errorMessage = "Invalid email or password. Please try again.";
+           break;
+         case "auth/email-already-in-use":
+           errorMessage = "This email is already in use. Please log in or use a different email.";
+           break;
+         case "auth/weak-password":
+            errorMessage = "The password is too weak. It should be at least 6 characters long.";
+            break;
+         default:
+           errorMessage = authError.message;
+           break;
+       }
+       toast({
+          variant: "destructive",
+          title: "Authentication Failed",
+          description: errorMessage,
+      });
+      setIsLoading(false);
     }
   };
   
