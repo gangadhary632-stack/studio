@@ -5,25 +5,12 @@ export function ProfileLogo({ className }: { className?: string }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       className={cn(className)}
       aria-label="Profile Logo"
     >
       <path
-        d="M12 2l1.45 4.34-3.45 3.45-3.45-3.45L8 2z"
-        fill="#FFC107"
-        stroke="none"
-      />
-      <circle cx="12" cy="14" r="7" fill="#4CAF50" stroke="none" />
-      <circle cx="12" cy="12" r="3" fill="#FFC107" stroke="none" />
-      <path
-        d="M12 15c-1.66 0-3 1.34-3 3v1h6v-1c0-1.66-1.34-3-3-3z"
-        fill="#FFB300"
-        stroke="none"
+        d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a3 3 0 1 1-3 3a3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.98 4-3.08 6-3.08s5.97 1.1 6 3.08a7.2 7.2 0 0 1-6 3.22z"
       />
     </svg>
   );
