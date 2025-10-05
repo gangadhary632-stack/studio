@@ -9,20 +9,20 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
-  Trophy,
-  User,
   Gift,
   LifeBuoy,
 } from "lucide-react";
 import { PuzzleLogo } from "./puzzle-logo";
 import { QuizLogo } from "./quiz-logo";
+import { LeaderboardLogo } from "./leaderboard-logo";
+import { ProfileLogo } from "./profile-logo";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/quiz", icon: QuizLogo, label: "Quizzes" },
   { href: "/puzzles", icon: PuzzleLogo, label: "Pzzles" },
-  { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
-  { href: "/profile", icon: User, label: "Profile" },
+  { href: "/leaderboard", icon: LeaderboardLogo, label: "Leaderboard" },
+  { href: "/profile", icon: ProfileLogo, label: "Profile" },
   { href: "/rewards", icon: Gift, label: "Rewards" },
   { href: "/help", icon: LifeBuoy, label: "Help & Support" },
 ];
