@@ -6,15 +6,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mail, User as UserIcon } from "lucide-react";
 
 export default function ProfilePage() {
-  const { user } = useUser();
-
-  if (!user) {
-    return null;
-  }
-  
-  const userName = user.displayName || user.email?.split('@')[0] || 'User';
-  const userEmail = user.email || 'No email provided';
-  const avatarFallback = (userName.charAt(0) || 'U').toUpperCase();
+  const userName = 'Guest';
+  const userEmail = 'guest@eduquest.com';
+  const avatarFallback = 'G';
 
   return (
     <div className="flex flex-col gap-8">

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useUser } from "@/firebase";
 import {
   Card,
   CardContent,
@@ -46,14 +45,13 @@ const featureCards = [
 const classes = ["6th", "7th", "8th", "9th", "10th", "11th", "12th"];
 
 export default function DashboardPage() {
-  const { user } = useUser();
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
 
   return (
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back, {user?.displayName || user?.email || "Player"}!
+          Welcome back, Guest!
         </h1>
         <p className="text-muted-foreground">
           Ready to challenge your mind today?

@@ -7,9 +7,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import {
-  LifeBuoy,
-} from "lucide-react";
 import { PuzzleLogo } from "./puzzle-logo";
 import { QuizLogo } from "./quiz-logo";
 import { LeaderboardLogo } from "./leaderboard-logo";
@@ -20,11 +17,10 @@ import { DashboardLogo } from "./dashboard-logo";
 const navItems = [
   { href: "/dashboard", icon: DashboardLogo, label: "Dashboard" },
   { href: "/quiz", icon: QuizLogo, label: "Quizzes" },
-  { href: "/puzzles", icon: PuzzleLogo, label: "Pzzles" },
+  { href: "/puzzles", icon: PuzzleLogo, label: "Puzzles" },
   { href: "/leaderboard", icon: LeaderboardLogo, label: "Leaderboard" },
   { href: "/profile", icon: ProfileLogo, label: "Profile" },
   { href: "/rewards", icon: RewardsLogo, label: "Rewards" },
-  { href: "/help", icon: LifeBuoy, label: "Help & Support" },
 ];
 
 export function MainNav() {
