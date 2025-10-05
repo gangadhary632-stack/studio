@@ -4,36 +4,49 @@ export function QuizLogo({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      viewBox="0 0 100 100"
       className={cn(className)}
+      aria-label="Quiz Logo"
     >
+      <defs>
+        <radialGradient id="grad-bg" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" style={{stopColor: '#5EE6D0', stopOpacity: 1}} />
+          <stop offset="100%" style={{stopColor: '#38A89D', stopOpacity: 1}} />
+        </radialGradient>
+      </defs>
+      
+      {/* Background */}
+      <rect width="100" height="100" fill="url(#grad-bg)" />
+
+      {/* Comic book style explosion */}
       <path
-        d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"
-        fill="#E8EAF6"
+        d="M50 10 L60 30 L80 35 L65 50 L70 70 L50 60 L30 70 L35 50 L20 35 L40 30 Z"
+        fill="#F94144"
+        stroke="#231F20"
+        strokeWidth="2"
+      />
+      
+       <path
+        d="M50 15 L58 32 L75 36 L62 48 L66 65 L50 57 L34 65 L38 48 L25 36 L42 32 Z"
+        fill="#F3722C"
         stroke="none"
       />
-      <path
-        d="M12 17v.01"
-        stroke="#3F51B5"
-        strokeWidth="2.5"
-      />
-      <path
-        d="M12 13.5a1.5 1.5 0 0 1-1.5-1.5 2.5 2.5 0 1 1 5 0 1.5 1.5 0 0 1-1.5 1.5"
-        stroke="#3F51B5"
+
+      {/* Text "QUIZ" */}
+      <text
+        x="50"
+        y="55"
+        fontFamily="Impact, sans-serif"
+        fontSize="24"
+        fill="#FCEE21"
+        stroke="#231F20"
         strokeWidth="1.5"
-        fill="none"
-      />
-       <path
-        d="M10 9 a 2 2 0 1 1 4 0"
-        stroke="#FF5722"
-        strokeWidth="1.5"
-        fill="none"
-      />
+        textAnchor="middle"
+        dominantBaseline="middle"
+        transform="rotate(-5 50 50)"
+      >
+        QUIZ
+      </text>
     </svg>
   );
 }
